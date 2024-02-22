@@ -49,13 +49,13 @@ public class GuestController extends HttpServlet {
 			
 			WebUtil.redir("http://localhost:8080/mysite3/guest?action=addList", request, response);
 		}else if("delete".equals(action)) {//삭제폼
-			
+			/*
 			int no = Integer.parseInt(request.getParameter("no"));
 			System.out.println(no);
 			 
 			
 			request.setAttribute("no", no);
-			
+			*/// <!-- +++ jsp 에서도 파라미터값을 받아올수 있기에 굳이 Attribute로 보내고 받을 필요는 없다 -->
 			
 			WebUtil.forward("/WEB-INF/views/guestbook/deleteForm.jsp", request, response);
 		}else if("delete2".equals(action)) {//삭제

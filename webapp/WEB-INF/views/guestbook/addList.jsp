@@ -23,35 +23,8 @@
 <body>
 	<div id="wrap">
 
-		<div id="header" class="clearfix">
-			<h1>
-				<a href="">MySite</a>
-			</h1>
-
-			<!-- 
-			<ul>
-				<li>황일영 님 안녕하세요^^</li>
-				<li><a href="" class="btn_s">로그아웃</a></li>
-				<li><a href="" class="btn_s">회원정보수정</a></li>
-			</ul>
-			-->	
-			<ul>
-				<li><a href="" class="btn_s">로그인</a></li>
-				<li><a href="" class="btn_s">회원가입</a></li>
-			</ul>
-			
-		</div>
-		<!-- //header -->
-
-		<div id="nav">
-			<ul class="clearfix">
-				<li><a href="">입사지원서</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="">방명록</a></li>
-			</ul>
-		</div>
-		<!-- //nav -->
+		<!-- header.jsp를 불러와라(nav까지 포함) -->
+		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	
 		<div id="container" class="clearfix">
 			<div id="aside">
@@ -88,9 +61,9 @@
 							</colgroup>
 							<tbody>
 								<tr>
-									<th><label class="form-text" for="input-uname">이름</label></td>
+									<th><label class="form-text" for="input-uname">이름</label></th>
 									<td><input id="input-uname" type="text" name="name"></td>
-									<th><label class="form-text" for="input-pass">패스워드</label></td>
+									<th><label class="form-text" for="input-pass">패스워드</label></th>
 									<td><input id="input-pass"type="password" name="password"></td>
 								</tr>
 								<tr>
@@ -116,7 +89,7 @@
 							<col style="width: 10%;">
 						</colgroup>
 						<tr>
-							<td><%=gList.get(i).getNo() %></td>
+							<td><%=i+1 %></td>
 							<td><%=gList.get(i).getName() %></td>
 							<td><%=gList.get(i).getDate() %></td>
 							<td><a href="http://localhost:8080/mysite3/guest?action=delete&no=<%=gList.get(i).getNo()%>">[삭제]</a></td>
@@ -137,9 +110,7 @@
 		</div>
 		<!-- //container  -->
 
-		<div id="footer">
-			Copyright ⓒ 2020 황일영. All right reserved
-		</div>
+		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 		<!-- //footer -->
 	</div>
 	<!-- //wrap -->

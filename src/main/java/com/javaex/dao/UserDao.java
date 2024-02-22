@@ -100,4 +100,133 @@ public class UserDao {
 		
 		return count;
 	}
+	
+	public UserVo selectUserLogin(UserVo uservo) {
+		
+		UserVo authUser = null;
+		
+		this.getConnection();
+		
+		try {
+		
+		// 3. SQL문 준비 / 바인딩 / 실행
+			String query="";
+			query+=" select	no, ";
+			query+=" 		id, ";
+			query+=" 		password, ";
+			query+=" 		name, ";
+			query+=" 		gender ";
+			query+=" from users ";
+			query+=" where id = ? ";
+			query+=" and password = ? ";
+			
+			
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, uservo.getId());
+			pstmt.setString(2, uservo.getPassword());
+
+			
+			rs = pstmt.executeQuery();
+			
+			
+			while(rs.next()) {
+				int no = rs.getInt("no");
+				String id = rs.getString("id");
+				String password = rs.getString("password");
+				String name = rs.getString("name");
+				String gender = rs.getString("gender");
+				
+				authUser = new UserVo(no, id, password, name, gender);
+				
+			}
+			
+		// 4.결과처리
+		}catch (SQLException e) {
+			System.out.println("error:" + e);
+		
+		}
+		this.close();
+		
+		return authUser;
+	}
+	
+	public UserVo userModify(UserVo uservo) {
+		
+		UserVo authUser = null;
+		
+		this.getConnection();
+		
+		try {
+		
+		// 3. SQL문 준비 / 바인딩 / 실행
+			String query="";
+			query+=" update users ";
+			query+=" set	password = ?, ";
+			query+=" 		name = ?, ";
+			query+=" 		gender = ? ";
+			query+=" where 	no = ? ";
+
+			
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, uservo.getPassword());
+			pstmt.setString(2, uservo.getName());
+			pstmt.setString(3, uservo.getGender());
+			pstmt.setInt(4,  uservo.getNo());
+
+			
+			pstmt.executeUpdate();
+			
+			
+		// 4.결과처리
+		}catch (SQLException e) {
+			System.out.println("error:" + e);
+		
+		}
+		this.close();
+		
+		this.getConnection();
+		
+		try {
+		
+		// 3. SQL문 준비 / 바인딩 / 실행
+			String query="";
+			query+=" select	no, ";
+			query+=" 		id, ";
+			query+=" 		password, ";
+			query+=" 		name, ";
+			query+=" 		gender ";
+			query+=" from users ";
+			query+=" where no = ? ";
+			
+			
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, uservo.getNo());
+
+			
+			rs = pstmt.executeQuery();
+			
+			
+			while(rs.next()) {
+				int no = rs.getInt("no");
+				String id = rs.getString("id");
+				String password = rs.getString("password");
+				String name = rs.getString("name");
+				String gender = rs.getString("gender");
+				
+				authUser = new UserVo(no, id, password, name, gender);
+				
+			}
+			
+
+			
+		// 4.결과처리
+		}catch (SQLException e) {
+			System.out.println("error:" + e);
+		
+		}
+		this.close();
+		
+		return authUser;
+	}
+	
 }

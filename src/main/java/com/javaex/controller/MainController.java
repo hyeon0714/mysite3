@@ -20,7 +20,6 @@ public class MainController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("maincontroller");
 		
 		WebUtil.forward("/WEB-INF/views/main/index.jsp", request, response);
 		
