@@ -52,7 +52,7 @@
 	
 				<div id="user">
 					<div id="modifyForm">
-						<form action="/mysite3/user" method="post">
+						<form action="/mysite3/user" method="get">
 	
 							<!-- 아이디 -->
 							<div class="form-group">

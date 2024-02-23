@@ -72,13 +72,16 @@ public class BoardDao {
 			
 			// 3. SQL문 준비 / 바인딩 / 실행
 				String query="";
-				query+=" select	no, ";
+				query+=" select	board.no, ";
 				query+=" 		title, ";
 				query+=" 		content, ";
 				query+=" 		hit, ";
 				query+=" 		reg_date, ";
-				query+=" 		user_no ";
-				query+=" from board ";
+				query+=" 		user_no, ";
+				query+="		name ";
+				query+=" from board, users ";
+				query+=" where board.user_no = users.no ";
+				
 				
 				
 				pstmt = conn.prepareStatement(query);
@@ -93,8 +96,9 @@ public class BoardDao {
 					int hit = rs.getInt("hit");
 					String reg_date = rs.getString("reg_date");
 					int userNo = rs.getInt("user_no");
+					String name = rs.getString("name");
 					
-					BoardVo bv = new BoardVo(no, title, content, hit, reg_date, userNo);
+					BoardVo bv = new BoardVo(no, title, content, hit, reg_date, userNo, name);
 					
 					bList.add(bv);
 					
@@ -142,5 +146,229 @@ public class BoardDao {
 		return count;	
 	}
 	
+	public BoardVo readContent(int no) {
+		BoardVo bv = null;
+		int hit = 0;
+		
+		this.getConnection();
+		
+		try {
+			
+			// 3. SQL문 준비 / 바인딩 / 실행
+				String query="";
+				query+=" select	title, ";
+				query+=" 		content, ";
+				query+=" 		hit, ";
+				query+=" 		reg_date, ";
+				query+="		users.no, ";
+				query+=" 		name ";
+				query+=" from board, users ";
+				query+=" where board.user_no = users.no ";
+				query+=" and		board.no = ? ";
+				
+
+				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, no);
+				
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					String title = rs.getString("title");
+					String content = rs.getString("content");
+					hit = rs.getInt("hit");
+					String reg_date = rs.getString("reg_date");
+					int user_no = rs.getInt("users.no");
+					String name = rs.getString("name");
+				
+					hit = hit+1;
+				
+					bv= new BoardVo(title, content, hit, reg_date, user_no, name);
+					
+				}
+				
+			// 4.결과처리
+			}catch (SQLException e) {
+				System.out.println("error:" + e);
+			
+			}
+		this.close();
+		
+		
+		this.getConnection();
+		
+		try {
+			
+			// 3. SQL문 준비 / 바인딩 / 실행
+				String query="";
+				query+=" update	board ";
+				query+=" set hit = ? ";
+				query+=" where no = ? ";
+				
+				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, hit);
+				pstmt.setInt(2, no);
+				
+				pstmt.executeUpdate();
+
+			// 4.결과처리
+			}catch (SQLException e) {
+				System.out.println("error:" + e);
+			
+			}
+		this.close();
+		
+		return bv;
+	}
 	
+	public List<BoardVo> boardModify(String title , String content, int no) {
+		
+		
+		this.getConnection();
+		
+		try {
+			
+			// 3. SQL문 준비 / 바인딩 / 실행
+				String query="";
+				query+=" update	board ";
+				query+=" set title = ?, ";
+				query+=" 	content = ? ";
+				query+=" where no = ? ";
+
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, title);
+				pstmt.setString(2, content);
+				pstmt.setInt(3, no);
+				
+				pstmt.executeUpdate();
+								
+			// 4.결과처리
+			}catch (SQLException e) {
+				System.out.println("error:" + e);
+			
+			}
+		
+		this.close();
+		
+		List<BoardVo> bList = new ArrayList<BoardVo>();
+		
+		this.getConnection();
+		
+		try {
+			
+			// 3. SQL문 준비 / 바인딩 / 실행
+				String query="";
+				query+=" select	board.no, ";
+				query+=" 		title, ";
+				query+=" 		content, ";
+				query+=" 		hit, ";
+				query+=" 		reg_date, ";
+				query+=" 		user_no, ";
+				query+="		name ";
+				query+=" from board, users ";
+				query+=" where board.user_no = users.no ";
+				
+				
+				
+				pstmt = conn.prepareStatement(query);
+
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					int no1 = rs.getInt("no");
+					String title1 = rs.getString("title");
+					String content1 = rs.getString("content");
+					int hit = rs.getInt("hit");
+					String reg_date = rs.getString("reg_date");
+					int userNo = rs.getInt("user_no");
+					String name = rs.getString("name");
+					
+					BoardVo bv = new BoardVo(no1, title1, content1, hit, reg_date, userNo, name);
+					
+					bList.add(bv);
+					
+				}
+				
+				
+			// 4.결과처리
+			}catch (SQLException e) {
+				System.out.println("error:" + e);
+			
+			}
+		
+		this.close();
+		return bList;
+	}
+		
+
+	
+	public BoardVo modifyContent(int no) {
+		BoardVo bv = null;
+		int hit = 0;
+		
+		this.getConnection();
+		
+		try {
+			
+			// 3. SQL문 준비 / 바인딩 / 실행
+				String query="";
+				query+=" select	title, ";
+				query+=" 		content, ";
+				query+=" 		hit, ";
+				query+=" 		reg_date, ";
+				query+="		users.no, ";
+				query+=" 		name ";
+				query+=" from board, users ";
+				query+=" where board.user_no = users.no ";
+				query+=" and		board.no = ? ";
+				
+
+				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, no);
+				
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					String title = rs.getString("title");
+					String content = rs.getString("content");
+					hit = rs.getInt("hit");
+					String reg_date = rs.getString("reg_date");
+					int user_no = rs.getInt("users.no");
+					String name = rs.getString("name");
+				
+				
+					bv= new BoardVo(title, content, hit, reg_date, user_no, name);
+					
+				}
+				
+			// 4.결과처리
+			}catch (SQLException e) {
+				System.out.println("error:" + e);
+			
+			}
+		this.close();
+		return bv;
+	}
+	
+	public void boardDelete(int no) {
+		this.getConnection();
+		
+		try {
+			
+			// 3. SQL문 준비 / 바인딩 / 실행
+				String query="";
+				query+=" delete from board ";
+				query+=" where no = ? ";
+
+				
+				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, no);
+				
+				pstmt.executeUpdate();
+				
+			// 4.결과처리
+			}catch (SQLException e) {
+				System.out.println("error:" + e);
+			
+			}
+		this.close();
+	}
 }

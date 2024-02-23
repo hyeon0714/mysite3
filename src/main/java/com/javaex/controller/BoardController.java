@@ -53,8 +53,55 @@ public class BoardController extends HttpServlet {
 			
 			WebUtil.redir("/mysite3/board?action=list", request, response);
 			
+		}else if("read".equals(action)) {
+			int no = Integer.parseInt(request.getParameter("no"));
+			
+			BoardDao bd = new BoardDao();
+			
+			BoardVo bContent = bd.readContent(no);
+			
+			request.setAttribute("bContent", bContent);
+			
+			WebUtil.forward("/WEB-INF/views/board/read.jsp", request, response);
+			
+		}else if("modifyForm".equals(action)) {
+			
+			int no = Integer.parseInt(request.getParameter("no"));
+			
+			BoardDao bd = new BoardDao();
+			
+			BoardVo mContent = bd.modifyContent(no);
+			
+			request.setAttribute("mContent", mContent);
+			
+			
+			WebUtil.forward("/WEB-INF/views/board/modifyForm.jsp", request, response);
+			
+		}else if("modify".equals(action)) {
+			
+			String title = request.getParameter("title");
+			
+			String content = request.getParameter("content");
+			
+			int no = Integer.parseInt(request.getParameter("no"));
+			
+			BoardDao bd = new BoardDao();
+			
+			List<BoardVo> bList = bd.boardModify(title, content, no);
+			
+			request.setAttribute("bList", bList);
+			
+			WebUtil.redir("/mysite3/board?action=list", request, response);
+			
+		}else if("delete".equals(action)) {
+			int no = Integer.parseInt(request.getParameter("no"));
+			
+			BoardDao bd =new BoardDao();
+			
+			bd.boardDelete(no);
+			
+			WebUtil.redir("/mysite3/board?action=list", request, response);
 		}
-		
 	}
 
 
